@@ -3,7 +3,7 @@ import useField from "../hooks/useField.jsx";
 
 const SignupComponent = ({ setIsAuthenticated }) => {
   const { handleSignup } = useSignup(); // setIsAuthenticated
-  const nameField = useField("name")
+  const nameField = useField("name");
   const emailField = useField("email");
   const passwordField = useField("password");
   const phone_number = useField("phone_number");
@@ -14,16 +14,15 @@ const SignupComponent = ({ setIsAuthenticated }) => {
   const handleSubmit = (event) => {
     event.preventDefault();
     handleSignup(
-        nameField.value,
-        emailField.value, 
-        passwordField.value, 
-        phone_number.value,
-        gender.value,
-        date_of_birth.value,
-        membership_status.value
-        );
+      nameField.value,
+      emailField.value, 
+      passwordField.value, 
+      phone_number.value,
+      gender.value,
+      date_of_birth.value,
+      membership_status.value === "true" // Handling true/false value from membership status
+    );
   };
-
 
   return (
     <section className='bg-indigo-50'>
@@ -59,7 +58,7 @@ const SignupComponent = ({ setIsAuthenticated }) => {
                 Password:
               </label>
               <input
-                type = "password"
+                type='password'
                 className='border rounded w-full py-2 px-3'
                 {...passwordField}
               />
@@ -72,7 +71,7 @@ const SignupComponent = ({ setIsAuthenticated }) => {
               >
                 Phone: 
               </label>
-              <input type="number" className='border rounded w-full py-2 px-3' {...phone_number}/>
+              <input type="number" className='border rounded w-full py-2 px-3' {...phone_number} />
             </div>
 
             <div className='mb-4'>
@@ -92,7 +91,9 @@ const SignupComponent = ({ setIsAuthenticated }) => {
               >
                 Date of Birth:
               </label>
+              {/* Updated to type="date" for date selection */}
               <input
+                type="date"
                 className='border rounded w-full py-2 px-3'
                 {...date_of_birth}
               />
@@ -105,7 +106,11 @@ const SignupComponent = ({ setIsAuthenticated }) => {
               >
                 Membership Status:
               </label>
-              <input className='border rounded w-full py-2 px-3' {...membership_status} />
+              {/* Dropdown for true/false membership status */}
+              <select className='border rounded w-full py-2 px-3' {...membership_status}>
+                <option value="true">True</option>
+                <option value="false">False</option>
+              </select>
             </div>
 
             <div>
