@@ -2,9 +2,9 @@ import useField from "../hooks/useField"; // Make sure to import the hook
 import useLogin from "../hooks/useLogin";
 
 const LoginPage = ({ setIsAuthenticated }) => {
+  const { handleLogin } = useLogin(setIsAuthenticated);
   const emailField = useField("email", "email"); // Pass id as second argument
-  const passwordField = useField("password", "password"); // Pass id as second argument
-  const { handleLogin } = useLogin(setIsAuthenticated); // Assuming this is from another hook
+  const passwordField = useField("password", "password");
 
   const handleSubmit = (event) => {
     event.preventDefault();

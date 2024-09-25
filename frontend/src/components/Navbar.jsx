@@ -1,16 +1,11 @@
-import { NavLink, Link } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 import logo from "../assets/images/logo.png";
 
-const Navbar = (setIsAuthenticated, isAuthenticated) => {
+const Navbar = ({ setIsAuthenticated, isAuthenticated }) => {
   const handleClick = () => {
     // remove user from storage
     sessionStorage.removeItem("user");
     setIsAuthenticated(false);
-  };
-
-  const handleClickTest = () => {
-    // remove user from storage
-    setIsAuthenticated(true);
   };
 
   const linkClass = ({ isActive }) =>
@@ -37,20 +32,19 @@ const Navbar = (setIsAuthenticated, isAuthenticated) => {
                 <NavLink to="/jobs" className={linkClass}>
                   Jobs
                 </NavLink>
-                {!isAuthenticated && (
+                {isAuthenticated ? (
                   <>
                     <NavLink to="/add-job" className={linkClass}>
                       Add Job
                     </NavLink>
-                    <button
+                    <NavLink
                       className="text-white bg-indigo-800 hover:bg-red-800 rounded-md px-3 py-2"
                       onClick={handleClick}
                     >
                       Log out
-                    </button>
+                    </NavLink>
                   </>
-                )}
-                {isAuthenticated && (
+                ) : (
                   <>
                     <NavLink to="/login" className={linkClass}>
                       Login
@@ -58,12 +52,6 @@ const Navbar = (setIsAuthenticated, isAuthenticated) => {
                     <NavLink to="/signup" className={linkClass}>
                       Signup
                     </NavLink>
-                    <button
-                      className="text-white bg-indigo-800 hover:bg-red-800 rounded-md px-3 py-2"
-                      onClick={handleClickTest}
-                    >
-                      test
-                    </button>
                   </>
                 )}
               </div>

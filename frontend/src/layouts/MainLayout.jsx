@@ -3,7 +3,8 @@ import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Navbar from "../components/Navbar";
 
-const MainLayout = (setIsAuthenticated, isAuthenticated) => {
+// MainLayout.jsx
+const MainLayout = ({ setIsAuthenticated, isAuthenticated }) => {
   return (
     <>
       <Navbar
@@ -15,4 +16,5 @@ const MainLayout = (setIsAuthenticated, isAuthenticated) => {
     </>
   );
 };
+
 export default MainLayout;

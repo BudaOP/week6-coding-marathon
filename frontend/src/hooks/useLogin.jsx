@@ -8,9 +8,6 @@ const useLogin = (setIsAuthenticated) => {
   const navigate = useNavigate();
 
   const handleLogin = async (email, password) => {
-    // Prevent the default form submission
-    event.preventDefault();
-
     try {
       const response = await fetch("/api/users/login", {
         method: "POST",

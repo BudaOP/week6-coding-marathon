@@ -75,15 +75,16 @@ const updateJob = async (req, res) => {
 
 const deleteJob = async (req, res) => {
   try {
-    const job = await ReactJob.findById(req.params.id);
+    const job = await Job.findById(req.params.id); // Correct the model usage here
 
     if (!job) {
       return res.status(404).json({ message: "Job not found" });
     }
 
-    await ReactJob.findByIdAndDelete(req.params.id); // More concise delete
+    await Job.findByIdAndDelete(req.params.id); // Delete the job
     res.status(200).json({ message: "Job removed successfully" });
   } catch (error) {
+    console.error("Error deleting job:", error); // Log the error for debugging
     res.status(500).json({ message: "Server error: Unable to delete job" });
   }
 };

@@ -2,7 +2,7 @@ import useSignup from "../hooks/useSignup.jsx";
 import useField from "../hooks/useField.jsx";
 
 const SignupComponent = ({ setIsAuthenticated }) => {
-  const { handleSignup } = useSignup(); // setIsAuthenticated
+  // setIsAuthenticated
   const nameField = useField("name", "name");
   const emailField = useField("email", "email");
   const passwordField = useField("password", "password");
@@ -10,6 +10,8 @@ const SignupComponent = ({ setIsAuthenticated }) => {
   const gender = useField("gender", "gender");
   const date_of_birth = useField("date_of_birth", "date_of_birth");
   const membership_status = useField("membership_status", "membership_status");
+
+  const { handleSignup } = useSignup(setIsAuthenticated);
 
   const handleSubmit = (event) => {
     event.preventDefault();
