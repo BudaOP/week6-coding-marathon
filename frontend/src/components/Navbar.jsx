@@ -1,7 +1,18 @@
-import { NavLink } from "react-router-dom";
+import { NavLink, Link } from "react-router-dom";
 import logo from "../assets/images/logo.png";
 
-const Navbar = () => {
+const Navbar = (setIsAuthenticated, isAuthenticated) => {
+  const handleClick = () => {
+    // remove user from storage
+    sessionStorage.removeItem("user");
+    setIsAuthenticated(false);
+  };
+
+  // const handleClickTest = () => {
+  //   // remove user from storage
+  //   setIsAuthenticated(true);
+  // };
+
   const linkClass = ({ isActive }) =>
     isActive
       ? "bg-black text-white hover:bg-gray-900 hover:text-white rounded-md px-3 py-2"
@@ -26,15 +37,34 @@ const Navbar = () => {
                 <NavLink to="/jobs" className={linkClass}>
                   Jobs
                 </NavLink>
-                <NavLink to="/add-job" className={linkClass}>
-                  Add Job
-                </NavLink>
-                <NavLink to="/login" className={linkClass}>
-                  Login
-                </NavLink>
-                <NavLink to="/signup" className={linkClass}>
-                  Signup
-                </NavLink>
+                {!isAuthenticated && (
+                  <>
+                    <NavLink to="/add-job" className={linkClass}>
+                      Add Job
+                    </NavLink>
+                    <button
+                      className="text-white bg-indigo-800 hover:bg-red-800 rounded-md px-3 py-2"
+                      onClick={handleClick}
+                    >
+                      Log out
+                    </button>
+                  </>
+                )}
+                {isAuthenticated && (
+                  <>
+                    <NavLink to="/login" className={linkClass}>
+                      Login
+                    </NavLink>
+                    <NavLink to="/signup" className={linkClass}>
+                      Signup
+                    </NavLink>
+                    {/* <button
+                      className="text-white bg-indigo-800 hover:bg-red-800 rounded-md px-3 py-2"
+                      onClick={handleClickTest}
+                    >
+                      test</button> */}
+                  </>
+                )}
               </div>
             </div>
           </div>
