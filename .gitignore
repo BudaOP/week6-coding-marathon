@@ -1,6 +1,6 @@
 /node_modules*
 .env*
-api-server*
+api-server
 v0
 
 # Logs
