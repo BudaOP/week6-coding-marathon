@@ -13,8 +13,13 @@ import AddJobPage from "./pages/AddJobPage";
 import EditJobPage from "./pages/EditJobPage";
 import SignupComponent from "./pages/SignupComponent";
 import LoginPage from "./pages/LoginPage";
+import { useState } from "react";
 
 const App = () => {
+  const [isAuthenticated, setIsAuthenticated] = useState(
+    JSON.parse(sessionStorage.getItem("user")) || false
+  );
+
   // Add New Job
   const addJob = async (newJob) => {
     const res = await fetch("/api/jobs", {
@@ -49,7 +54,15 @@ const App = () => {
 
   const router = createBrowserRouter(
     createRoutesFromElements(
-      <Route path="/" element={<MainLayout />}>
+      <Route
+        path="/"
+        element={
+          <MainLayout
+            isAuthenticated={isAuthenticated}
+            setIsAuthenticated={setIsAuthenticated}
+          />
+        }
+      >
         <Route index element={<HomePage />} />
         <Route path="/jobs" element={<JobsPage />} />
         <Route path="/add-job" element={<AddJobPage addJobSubmit={addJob} />} />
@@ -65,6 +78,15 @@ const App = () => {
         />
         <Route path="/signup" element={<SignupComponent />} />
         <Route path="/login" element={<LoginPage />} />
+        element=
+        {
+          <JobPage
+            isAuthenticated={isAuthenticated}
+            setIsAuthenticated={setIsAuthenticated}
+            deleteJob={deleteJob}
+          />
+        }
+        loader={jobLoader}
         <Route path="*" element={<NotFoundPage />} />
       </Route>
     )

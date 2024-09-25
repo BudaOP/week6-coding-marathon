@@ -1,4 +1,5 @@
 const express = require("express");
+const requireAuth = require("../middleware/requireAuth");
 const {
   getAllJobs,
   getJobById,
@@ -13,6 +14,9 @@ const router = express.Router();
 router.get("/", getAllJobs);
 
 router.get("/:id", getJobById);
+
+// require auth for editing purpose
+router.use(requireAuth);
 
 router.post("/", addJob);
 
