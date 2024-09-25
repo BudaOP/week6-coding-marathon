@@ -29,7 +29,7 @@ const App = () => {
       },
       body: JSON.stringify(newJob),
     });
-    return;
+    return res.json(); // Returning the response
   };
 
   // Delete Job
@@ -37,7 +37,7 @@ const App = () => {
     const res = await fetch(`/api/jobs/${id}`, {
       method: "DELETE",
     });
-    return;
+    return res.ok; // Returning a boolean to indicate success
   };
 
   // Update Job
@@ -49,7 +49,7 @@ const App = () => {
       },
       body: JSON.stringify(job),
     });
-    return;
+    return res.json(); // Returning the response
   };
 
   const router = createBrowserRouter(
@@ -73,20 +73,17 @@ const App = () => {
         />
         <Route
           path="/jobs/:id"
-          element={<JobPage deleteJob={deleteJob} />}
+          element={
+            <JobPage
+              isAuthenticated={isAuthenticated}
+              setIsAuthenticated={setIsAuthenticated}
+              deleteJob={deleteJob}
+            />
+          }
           loader={jobLoader}
         />
         <Route path="/signup" element={<SignupComponent />} />
         <Route path="/login" element={<LoginPage />} />
-        element=
-        {
-          <JobPage
-            isAuthenticated={isAuthenticated}
-            setIsAuthenticated={setIsAuthenticated}
-            deleteJob={deleteJob}
-          />
-        }
-        loader={jobLoader}
         <Route path="*" element={<NotFoundPage />} />
       </Route>
     )
@@ -94,4 +91,5 @@ const App = () => {
 
   return <RouterProvider router={router} />;
 };
+
 export default App;

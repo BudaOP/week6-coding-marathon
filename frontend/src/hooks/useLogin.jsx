@@ -7,7 +7,10 @@ const useLogin = (setIsAuthenticated) => {
   const passwordField = useField("password", "password");
   const navigate = useNavigate();
 
-  const handleLogin = async () => {
+  const handleLogin = async (email, password) => {
+    // Prevent the default form submission
+    event.preventDefault();
+
     try {
       const response = await fetch("/api/users/login", {
         method: "POST",
@@ -15,11 +18,11 @@ const useLogin = (setIsAuthenticated) => {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          email: emailField.value,
-          password: passwordField.value,
+          email,
+          password,
         }),
       });
-
+      console.log("Values", email, password);
       if (response.ok) {
         const user = await response.json();
         sessionStorage.setItem("user", JSON.stringify(user));
@@ -28,12 +31,17 @@ const useLogin = (setIsAuthenticated) => {
         setIsAuthenticated(true);
         navigate("/");
       } else {
-        console.error("login failed");
+        const errorData = await response.json(); // Get error details
+        console.error("Login failed:", errorData);
+        toast.error(errorData.message || "Login failed. Please try again.");
       }
     } catch (error) {
       console.error("Error during login:", error);
+      toast.error("An error occurred. Please try again.");
     }
   };
+
   return { emailField, passwordField, handleLogin };
 };
+
 export default useLogin;
