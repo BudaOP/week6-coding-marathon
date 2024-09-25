@@ -14,5 +14,4 @@ const useField = (type, id) => {
     onChange,
   };
 };
-
 export default useField;
