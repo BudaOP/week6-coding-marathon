@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import useSignup from "../hooks/useSignup";
 import useField from "../hooks/useField";
+import CheckBox from '../components/CheckBox';
 
 const SignupComponent = ({ setIsAuthenticated }) => {
   // setIsAuthenticated
@@ -10,8 +11,10 @@ const SignupComponent = ({ setIsAuthenticated }) => {
   const phone_number = useField("phone_number", "phone_number");
   const gender = useField("gender", "gender");
   const date_of_birth = useField("date_of_birth", "date_of_birth");
-  const membership_status = useField("membership_status", "membership_status");
+  // const membership_status = useField("membership_status", "membership_status");
 
+
+  const [membershipStatus, setMembershipStatus] = useState('Not a Member')
   const { handleSignup } = useSignup(setIsAuthenticated);
 
   const handleSubmit = async (event) => {
@@ -23,7 +26,7 @@ const SignupComponent = ({ setIsAuthenticated }) => {
       phone_number.value,
       gender.value,
       date_of_birth.value,
-      membership_status.value
+      membershipStatus
     );
   };
 
@@ -109,14 +112,14 @@ const SignupComponent = ({ setIsAuthenticated }) => {
               />
             </div>
 
-            <div className="mb-4">
+            {/* <div className="mb-4">
               <label
                 htmlFor="company_description"
                 className="block text-gray-700 font-bold mb-2"
               >
                 Membership Status:
               </label>
-              {/* Dropdown for true/false membership status */}
+
               <select
                 className="border rounded w-full py-2 px-3"
                 {...membership_status}
@@ -133,30 +136,19 @@ const SignupComponent = ({ setIsAuthenticated }) => {
               >
                 Signup
               </button>
-            </div>
+            </div> */}
 
-            <div>
-              <label htmlFor="membership" className="block text-gray-700 font-bold mb-2">
-                Membership Status:
-              </label>
-              <div className="flex items-center">
-                <input
-                  id="membership"
-                  type="checkbox"
-                  className="mr-2"
-                  checked={membershipStatus}
-                  onChange={(e) => setMembershipStatus(e.target.checked)}
-                />
-                <span>Active Member</span>
-              </div>
-            </div>
+            <CheckBox 
+                    status={membershipStatus} 
+                    onStatusChange={setMembershipStatus} 
+                  />
 
-            {(formError || signupError) && (
+            {/* {(formError || signupError) && (
               <p className="text-red-500" role="alert">
                 {formError || signupError}
               </p>
-            )}
-
+            )} */}
+            <br />
             <button
               className="bg-indigo-500 hover:bg-indigo-600 text-white font-bold py-2 px-4 rounded-full w-full focus:outline-none focus:shadow-outline"
               type="submit"
