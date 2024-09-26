@@ -1,126 +1,149 @@
-import useSignup from "../hooks/useSignup.jsx";
-import useField from "../hooks/useField.jsx";
+import React, { useState } from 'react';
+import useSignup from "../hooks/useSignup";
+import useField from "../hooks/useField";
 
 const SignupComponent = ({ setIsAuthenticated }) => {
-  const { handleSignup } = useSignup(); // setIsAuthenticated
+  const { handleSignup, error: signupError } = useSignup(setIsAuthenticated);
   const nameField = useField("name");
   const emailField = useField("email");
   const passwordField = useField("password");
-  const phone_number = useField("phone_number");
+  const phoneNumber = useField("phone_number");
   const gender = useField("gender");
-  const date_of_birth = useField("date_of_birth");
-  const membership_status = useField("membership_status");
+  const dateOfBirth = useField("date_of_birth");
+  const [membershipStatus, setMembershipStatus] = useState(false);
+  const [formError, setFormError] = useState(null);
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
-    handleSignup(
-      nameField.value,
-      emailField.value, 
-      passwordField.value, 
-      phone_number.value,
-      gender.value,
-      date_of_birth.value,
-      membership_status.value === "true" // Handling true/false value from membership status
-    );
+    setFormError(null);
+    try {
+      await handleSignup({
+        name: nameField.value,
+        email: emailField.value, 
+        password: passwordField.value, 
+        phone_number: phoneNumber.value,
+        gender: gender.value,
+        date_of_birth: dateOfBirth.value,
+        membership_status: membershipStatus
+      });
+      // Note: setIsAuthenticated is now handled within the useSignup hook
+    } catch (err) {
+      setFormError(err instanceof Error ? err.message : 'An error occurred during signup');
+    }
   };
 
   return (
-    <section className='bg-indigo-50'>
-      <div className='container m-auto max-w-2xl py-24'>
-        <div className='bg-white px-6 py-8 mb-4 shadow-md rounded-md border m-4 md:m-0'>
-          <form onSubmit={handleSubmit}>
-            <h2 className='text-3xl text-center font-semibold mb-6'>Sign up</h2>
+    <section className="bg-gray-50">
+      <div className="container mx-auto max-w-2xl py-24">
+        <div className="bg-white px-6 py-8 mb-4 shadow-md rounded-md border m-4 md:m-0">
+          <form onSubmit={handleSubmit} className="space-y-4">
+            <h2 className="text-3xl text-center font-semibold mb-6">Sign up</h2>
 
-            <div className='mb-4'>
-              <label
-                htmlFor='type'
-                className='block text-gray-700 font-bold mb-2'
-              >
-                Name: 
+            <div>
+              <label htmlFor="name" className="block text-gray-700 font-bold mb-2">
+                Name:
               </label>
-              <input className='border rounded w-full py-2 px-3 mb-2' {...nameField} />
+              <input 
+                className="border rounded w-full py-2 px-3" 
+                {...nameField} 
+                required 
+                aria-required="true"
+              />
             </div>
 
-            <div className='mb-4'>
-              <label className='block text-gray-700 font-bold mb-2'>
+            <div>
+              <label htmlFor="email" className="block text-gray-700 font-bold mb-2">
                 Email:
               </label>
-              <input
-                className='border rounded w-full py-2 px-3 mb-2'
-                {...emailField}
+              <input 
+                className="border rounded w-full py-2 px-3" 
+                {...emailField} 
+                required 
+                aria-required="true"
               />
             </div>
-            <div className='mb-4'>
-              <label
-                htmlFor='description'
-                className='block text-gray-700 font-bold mb-2'
-              >
+
+            <div>
+              <label htmlFor="password" className="block text-gray-700 font-bold mb-2">
                 Password:
               </label>
-              <input
-                type='password'
-                className='border rounded w-full py-2 px-3'
-                {...passwordField}
+              <input 
+                className="border rounded w-full py-2 px-3" 
+                {...passwordField} 
+                required 
+                aria-required="true"
               />
             </div>
 
-            <div className='mb-4'>
-              <label
-                htmlFor='type'
-                className='block text-gray-700 font-bold mb-2'
-              >
-                Phone: 
+            <div>
+              <label htmlFor="phone" className="block text-gray-700 font-bold mb-2">
+                Phone:
               </label>
-              <input type="number" className='border rounded w-full py-2 px-3' {...phone_number} />
-            </div>
-
-            <div className='mb-4'>
-              <label className='block text-gray-700 font-bold mb-2'>
-                Gender: 
-              </label>
-              <input
-                className='border rounded w-full py-2 px-3 mb-2'
-                {...gender}
+              <input 
+                className="border rounded w-full py-2 px-3" 
+                {...phoneNumber} 
+                required 
+                aria-required="true"
               />
             </div>
 
-            <div className='mb-4'>
-              <label
-                htmlFor='company'
-                className='block text-gray-700 font-bold mb-2'
-              >
-                Date of Birth:
+            <div>
+              <label htmlFor="gender" className="block text-gray-700 font-bold mb-2">
+                Gender:
               </label>
-              {/* Updated to type="date" for date selection */}
-              <input
-                type="date"
-                className='border rounded w-full py-2 px-3'
-                {...date_of_birth}
-              />
-            </div>
-
-            <div className='mb-4'>
-              <label
-                htmlFor='company_description'
-                className='block text-gray-700 font-bold mb-2'
+              <select 
+                className="border rounded w-full py-2 px-3" 
+                {...gender} 
+                required 
+                aria-required="true"
               >
-                Membership Status:
-              </label>
-              {/* Dropdown for true/false membership status */}
-              <select className='border rounded w-full py-2 px-3' {...membership_status}>
-                <option value="true">True</option>
-                <option value="false">False</option>
+                <option value="">Select gender</option>
+                <option value="male">Male</option>
+                <option value="female">Female</option>
+                <option value="other">Other</option>
               </select>
             </div>
 
             <div>
-              <button
-                className='bg-indigo-500 hover:bg-indigo-600 text-white font-bold py-2 px-4 rounded-full w-full focus:outline-none focus:shadow-outline'
-                type='submit'
-              >
-                Signup
-              </button>
+              <label htmlFor="dob" className="block text-gray-700 font-bold mb-2">
+                Date of Birth:
+              </label>
+              <input 
+                className="border rounded w-full py-2 px-3" 
+                {...dateOfBirth} 
+                required 
+                aria-required="true"
+              />
             </div>
+
+            <div>
+              <label htmlFor="membership" className="block text-gray-700 font-bold mb-2">
+                Membership Status:
+              </label>
+              <div className="flex items-center">
+                <input
+                  id="membership"
+                  type="checkbox"
+                  className="mr-2"
+                  checked={membershipStatus}
+                  onChange={(e) => setMembershipStatus(e.target.checked)}
+                />
+                <span>Active Member</span>
+              </div>
+            </div>
+
+            {(formError || signupError) && (
+              <p className="text-red-500" role="alert">
+                {formError || signupError}
+              </p>
+            )}
+
+            <button
+              className="bg-indigo-500 hover:bg-indigo-600 text-white font-bold py-2 px-4 rounded-full w-full focus:outline-none focus:shadow-outline"
+              type="submit"
+            >
+              Sign Up
+            </button>
           </form>
         </div>
       </div>

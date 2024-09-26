@@ -11,6 +11,7 @@
     "concurrently": "^7.6.0"
   },
   "dependencies": {
-    "caniuse-lite": "^1.0.30001663"
+    "caniuse-lite": "^1.0.30001663",
+    "dotenv": "^16.4.5"
   }
 }
