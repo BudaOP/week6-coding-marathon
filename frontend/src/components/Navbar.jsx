@@ -1,7 +1,10 @@
 import { NavLink } from "react-router-dom";
 import logo from "../assets/images/logo.png";
+import { AuthProvider, useAuth } from '../context/AuthContext';
 
-const Navbar = ({ setIsAuthenticated, isAuthenticated }) => {
+const Navbar = () => {
+  const { isAuthenticated, logout } = useAuth();
+
   const handleClick = () => {
     // remove user from storage
     sessionStorage.removeItem("user");
@@ -39,7 +42,7 @@ const Navbar = ({ setIsAuthenticated, isAuthenticated }) => {
                     </NavLink>
                     <NavLink
                       className="text-white bg-indigo-800 hover:bg-red-800 rounded-md px-3 py-2"
-                      onClick={handleClick}
+                      onClick={logout}
                     >
                       Log out
                     </NavLink>

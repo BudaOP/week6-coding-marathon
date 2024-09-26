@@ -14,12 +14,10 @@ import EditJobPage from "./pages/EditJobPage";
 import SignupComponent from "./pages/SignupComponent";
 import LoginPage from "./pages/LoginPage";
 import { useState } from "react";
+import { ProtectedRoute } from './components/ProtectedRoute';
+import { AuthProvider } from './context/AuthContext';
 
-const App = () => {
-  const [isAuthenticated, setIsAuthenticated] = useState(
-    JSON.parse(sessionStorage.getItem("user")) || false
-  );
-
+const AppContent = () => {
   // Add New Job
   const addJob = async (newJob) => {
     const user = JSON.parse(sessionStorage.getItem("user")); // Get the user from sessionStorage
@@ -111,15 +109,7 @@ const App = () => {
   // Router
   const router = createBrowserRouter(
     createRoutesFromElements(
-      <Route
-        path="/"
-        element={
-          <MainLayout
-            isAuthenticated={isAuthenticated}
-            setIsAuthenticated={setIsAuthenticated}
-          />
-        }
-      >
+      <Route path="/" element={<MainLayout/>}>
         <Route index element={<HomePage />} />
         <Route path="/jobs" element={<JobsPage />} />
         <Route path="/add-job" element={<AddJobPage addJobSubmit={addJob} />} />
@@ -130,29 +120,28 @@ const App = () => {
         />
         <Route
           path="/jobs/:id"
-          element={
-            <JobPage
-              isAuthenticated={isAuthenticated}
-              setIsAuthenticated={setIsAuthenticated}
-              deleteJob={deleteJob}
-            />
-          }
+          element={<JobPage deleteJob={deleteJob}/>}
           loader={jobLoader}
         />
         <Route
           path="/signup"
-          element={<SignupComponent setIsAuthenticated={setIsAuthenticated} />}
+          element={<SignupComponent />}
         />
-        <Route
-          path="/login"
-          element={<LoginPage setIsAuthenticated={setIsAuthenticated} />}
-        />
+        <Route path="/login" element={<LoginPage />} />
         <Route path="*" element={<NotFoundPage />} />
       </Route>
     )
   );
 
   return <RouterProvider router={router} />;
+};
+
+const App = () => {
+  return (
+    <AuthProvider>
+      <AppContent />
+    </AuthProvider>
+  );
 };
 
 export default App;

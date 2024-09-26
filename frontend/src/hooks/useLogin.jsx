@@ -1,11 +1,13 @@
 import useField from "../hooks/useField";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
+import { useAuth } from '../context/AuthContext';
 
 const useLogin = (setIsAuthenticated) => {
   const emailField = useField("email", "email");
   const passwordField = useField("password", "password");
   const navigate = useNavigate();
+  const { login } = useAuth();
 
   const handleLogin = async (email, password) => {
     try {
@@ -25,7 +27,8 @@ const useLogin = (setIsAuthenticated) => {
         sessionStorage.setItem("user", JSON.stringify(user));
         console.log("User logged in successfully!");
         toast.success("User Login Successful");
-        setIsAuthenticated(true);
+        // setIsAuthenticated(true);
+        login()
         navigate("/");
       } else {
         const errorData = await response.json(); // Get error details

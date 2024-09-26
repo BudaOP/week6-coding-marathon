@@ -1,9 +1,10 @@
 import { useNavigate } from "react-router-dom";
 import { useState } from 'react';
+import { useAuth } from '../context/AuthContext';
 
-const useSignup = (setIsAuthenticated) => {
+const useSignup = () => {
   const navigate = useNavigate();
-
+  const { login } = useAuth();
   const handleSignup = async (
     name,
     email,
@@ -34,7 +35,7 @@ const useSignup = (setIsAuthenticated) => {
         const user = await response.json();
         sessionStorage.setItem("user", JSON.stringify(user));
         console.log("User signed up successfully!");
-        setIsAuthenticated(true);
+        login();
         navigate("/");
       } else {
         console.error("Signup failed");
