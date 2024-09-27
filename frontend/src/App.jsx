@@ -112,21 +112,27 @@ const AppContent = () => {
       <Route path="/" element={<MainLayout/>}>
         <Route index element={<HomePage />} />
         <Route path="/jobs" element={<JobsPage />} />
-        <Route path="/add-job" element={<AddJobPage addJobSubmit={addJob} />} />
-        <Route
-          path="/edit-job/:id"
-          element={<EditJobPage updateJobSubmit={updateJob} />}
-          loader={jobLoader}
-        />
         <Route
           path="/jobs/:id"
           element={<JobPage deleteJob={deleteJob}/>}
           loader={jobLoader}
         />
-        <Route
-          path="/signup"
-          element={<SignupComponent />}
+        
+        <Route path="/add-job" element={
+          <ProtectedRoute>
+            <AddJobPage addJobSubmit={addJob} />
+          </ProtectedRoute>
+        } />
+
+        <Route path="/edit-job/:id" element={
+          <ProtectedRoute>
+            <EditJobPage updateJobSubmit={updateJob} />
+          </ProtectedRoute>
+        }
+          loader={jobLoader}
         />
+
+        <Route path="/signup" element={<SignupComponent />} />
         <Route path="/login" element={<LoginPage />} />
         <Route path="*" element={<NotFoundPage />} />
       </Route>
