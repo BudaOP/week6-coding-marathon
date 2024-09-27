@@ -5,12 +5,6 @@ import { useAuth } from '../context/AuthContext';
 const Navbar = () => {
   const { isAuthenticated, logout } = useAuth();
 
-  const handleClick = () => {
-    // remove user from storage
-    sessionStorage.removeItem("user");
-    setIsAuthenticated(false);
-  };
-
   const linkClass = ({ isActive }) =>
     isActive
       ? "bg-black text-white hover:bg-gray-900 hover:text-white rounded-md px-3 py-2"
