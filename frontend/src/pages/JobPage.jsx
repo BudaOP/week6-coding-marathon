@@ -2,11 +2,13 @@ import { useParams, useLoaderData, useNavigate } from "react-router-dom";
 import { FaArrowLeft, FaMapMarker } from "react-icons/fa";
 import { Link } from "react-router-dom";
 import { toast } from "react-toastify";
+import { useAuth } from "../context/AuthContext";
 
-const JobPage = ({ setIsAuthenticated, isAuthenticated, deleteJob }) => {
+const JobPage = ({ deleteJob }) => {
   const navigate = useNavigate();
   const { id } = useParams();
   const job = useLoaderData();
+  const { isAuthenticated  } = useAuth();
 
   const onDeleteClick = (jobId) => {
     const confirm = window.confirm(

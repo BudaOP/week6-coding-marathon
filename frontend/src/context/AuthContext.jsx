@@ -1,9 +1,11 @@
 import React, { createContext, useState, useContext, useEffect } from 'react';
+// import { useNavigate, useLocation } from 'react-router-dom';
 
 const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
+  // const [redirectPath, setRedirectPath] = useState('/');
 
   useEffect(() => {
     const storedAuth = localStorage.getItem('isAuthenticated');
@@ -21,6 +23,10 @@ export const AuthProvider = ({ children }) => {
     setIsAuthenticated(false);
     localStorage.removeItem('isAuthenticated');
   };
+
+  // const setRedirectLocation = (path) => {
+  //   setRedirectPath(path);
+  // };
 
   return (
     <AuthContext.Provider value={{ isAuthenticated, login, logout }}>

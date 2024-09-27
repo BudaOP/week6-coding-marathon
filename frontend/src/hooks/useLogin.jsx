@@ -3,13 +3,15 @@ import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { useAuth } from '../context/AuthContext';
 
-const useLogin = (setIsAuthenticated) => {
+const useLogin = () => {
+  // const location = useLocation();
   const emailField = useField("email", "email");
   const passwordField = useField("password", "password");
   const navigate = useNavigate();
   const { login } = useAuth();
 
   const handleLogin = async (email, password) => {
+
     try {
       const response = await fetch("/api/users/login", {
         method: "POST",
@@ -22,19 +24,21 @@ const useLogin = (setIsAuthenticated) => {
         }),
       });
       console.log("Values", email, password);
+
       if (response.ok) {
         const user = await response.json();
-        sessionStorage.setItem("user", JSON.stringify(user));
-        console.log("User logged in successfully!");
         toast.success("User Login Successful");
-        // setIsAuthenticated(true);
         login()
         navigate("/");
+        // const from = location.state?.from?.pathname || "/";
+        // navigate(from, { replace: true });
+
       } else {
         const errorData = await response.json(); // Get error details
         console.error("Login failed:", errorData);
         toast.error(errorData.message || "Login failed. Please try again.");
       }
+
     } catch (error) {
       console.error("Error during login:", error);
       toast.error("An error occurred. Please try again.");

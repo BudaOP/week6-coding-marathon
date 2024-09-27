@@ -1,8 +1,8 @@
 import useField from "../hooks/useField"; // Make sure to import the hook
 import useLogin from "../hooks/useLogin";
 
-const LoginPage = ({ setIsAuthenticated }) => {
-  const { handleLogin } = useLogin(setIsAuthenticated);
+const LoginPage = () => {
+  const { handleLogin } = useLogin();
   const emailField = useField("email", "email"); // Pass id as second argument
   const passwordField = useField("password", "password");
 

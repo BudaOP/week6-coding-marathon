@@ -3,7 +3,7 @@ import useSignup from "../hooks/useSignup";
 import useField from "../hooks/useField";
 import CheckBox from '../components/CheckBox';
 
-const SignupComponent = ({ setIsAuthenticated }) => {
+const SignupComponent = () => {
   // setIsAuthenticated
   const nameField = useField("name", "name");
   const emailField = useField("email", "email");
@@ -15,7 +15,7 @@ const SignupComponent = ({ setIsAuthenticated }) => {
 
 
   const [membershipStatus, setMembershipStatus] = useState('Not a Member')
-  const { handleSignup } = useSignup(setIsAuthenticated);
+  const { handleSignup } = useSignup();
 
   const handleSubmit = async (event) => {
     event.preventDefault();
